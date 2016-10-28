@@ -7,13 +7,17 @@ grep 2160407 --color -r  ./payment* // grep in all payment logs
 zgrep --color '/request' ./* | grep -v 'check_http' | grep -v 83.217.197.2 | less // inside gzip, remove check_http and 83.217.197.2
 grep pattern --color -r --include=\*.{cpp,h} rootdir
 grep --color iptv52562 payments*
+grep -E --color "ERROR.+Chronopay.+" payments.log // extended mode to find using regexp
+grep -P --color "ERROR.+Chronopay.+" payments.log // perl mode to find using regexp
+grep -v // invert the sense of matching
 
 find / -name 'server.xml'
 find / -iname 'server.xml' // case insensetive
 find / -type d -name 'tomcat'
 find / -name  profiles -type d // in Ubuntu search for dir with name profiles
 find -delete  -name '*.iml'
-find .-ls -name "*.gz" -exec command {} \; for each found (ls style found) file exec command 
+find .-ls -name "*.gz" -exec command {} \; for each found (ls style found) file exec command
+find rc*.d -name "*memcached" - delete // find all in rc*.d and then delete them all
 ****
 If your grep supports -R, do:
 grep -R 'string' dir/
@@ -41,6 +45,8 @@ netstat -nat | grep tcp | awk '{print $(NF)}' | sort | uniq -c // count dif stat
 ss -i // utilile to show sockets
 
 ps ax | grep tomcat // find process like tomcat
+ps ax | grep tomca[t] // find process like tomcat without grep
+pgrep tomcat // find pid of tomcat
 kill <pid> // send 15 signal to process that should process it
 kill - 9 <pid> // send signal to os to kill that process
 
@@ -67,6 +73,10 @@ sudo apt-get purge virtualbox-\*  // remove all configs for virtual box
 sudo apt-get autoremove    # autoremove packages (removes unused packages)
 sudo apt-get install linux-headers-generic-lts-trusty # Install linux headers kernels. It's like installation of a new package
 sudo apt-get install linux-image-3.13.0-76-generic # Install linux kernels. It's like installation of a new package
+apt-cache search ^<package name> // search about package
+apt-cache showpkg libevent-2.0-5 // show package info 
+aptitude // gui for apt
+
 
 scp informer_10.07.15.png mkhokhlushin@smile-prod-informer-1:~ // upload file using ssh
 scp -rp sourcedirectory user@dest:/path // upload directory -r recursive -p preserves modification times, access times, and modes from the original file.
@@ -86,7 +96,7 @@ tar czf name_of_archive_file.tar.gz name_of_directory_to_tar // To tar and gzip 
 adduser mkhokhlushin
 /usr/sbin/visudo // add here su previligies
 userdel mkhokhlushin 
-rm -rf /home/mkhokhlushin // remove home dir for user
+rm -rf /home/mkhokhlushin // remove dir with files
 rm -rf images/* // remove all inside images folder
 /var/log/secure // security logs
 
@@ -169,11 +179,12 @@ free -m // show free memory
 uptime
 cat /proc/meminfo
 cat /proc/cpuinfo
+lscpu // show cpu info
 
 // logs
 /var/log/ // places for logs
 /usr/local/www/logs // service specific places
-/dmesg, /var/log/messages // system
+dmesg, /var/log/messages // system
 lsof | grep ... // show log places for services
 /proc/pid
 
@@ -229,7 +240,7 @@ sudo rm -rf /var/lib/apt/lists/*
 sudo rm -rf /var/cache/apt/*
 
 dpkg -l // show packages in the system
-dpkg -L docker-engine // list files owned by docker-engine
+dpkg -L docker-engine // list all files in docker-engine package
 dpkg -l | grep linux | grep ii // get all packages linux installed
 dpkg -l linux-{headers,image}* | awk '/^ii/{ print $2}' | grep -v -e `uname -r | cut -f1,2 -d"-"` | grep -e [0-9] 
 dpkg -l linux-{headers,image}* | awk '/^ii/{ print $2}' | grep -v -e `uname -r | cut -f1,2 -d"-"` | grep -e [0-9] | xargs sudo apt-get -y purge // Remove old kernel packages
@@ -333,7 +344,7 @@ date // install date
 ntpdate ntp.server.com // sync with ntp server
 hwclock -w // sync time bios time with local time
 
-DNS
+//DNS
 /etc/resolv.conf // which dns should be asked first, second ...
 /etc/hosts // local file dns
 nsswitch /etc/nsswitch.conf // choose which process ask first (eg dns server first, local file last)
@@ -342,13 +353,44 @@ nscd -i hosts //
 host <hostname> //use dns to resolve record
 nslookup <hostname> // ...
 dig // ... but more inforamtion like tipe of a record, ttl...
-for u in host nslookup dig; do $u vk.com; done // do dns lookups using all three utils 
+for u in host nslookup dig; do $u vk.com; done // do dns lookups using all three utils
+/etc/bind // config for bind
+host -t SOA ya.ru // check soa record
+dig ANY ya.ru @8.8.8.8 // check all records for ya.ru using google dns
+rndc reload // reload bind config
 
 Ubuntu rearrange window // Ctrl + Alt + a keypad key.
 
 configure, make, install // build from sources
-configure --help, ./configure -help, --prefix // where to build
+configure --help, ./configure -help //watch where in will build the package, --prefix // param where to build this package
 make
+make -j<number of threads> // make in several threads
 make install
+make distclean // clean all maked
 
+//Daemons
+ppid = 1
+//enter not from tty
+//output to some file
 nohup // make service from program
+System initializations:
+SysV: scripts in init.d, // levels of run 0, 1s, 23,... ; Do something from :  /etc/rcN.d, /etc/init.d, /etc/rc.local when daemon goes from level to level. Script in init.d must include 4 functions start, stop, restart, status. Usually soft has it's own init script inside package
+upstart, 
+systemd //dependencies, parallel start
+
+telinit // change current run level
+service $service start, stop, restart, status
+update-rc.d  memcached defaults // add/remove services in autoload in certain runlevels defined in init script
+
+//Logs
+rsyslog // daemon to control logs. Config in /etc/rsyslog.conf and /etc/rsyslog.d/
+//stores logs in these folders:
+/var/log
+  auth
+  mail
+  syslog // system messages and uncathegorized
+//also rsyslof can transfer logs within network
+//logrotate can rotate logs /etc/logrotate.conf, /etc/logrotate.d
+
+
+echo $? // show return code of last command 
