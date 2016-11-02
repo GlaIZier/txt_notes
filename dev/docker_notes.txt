@@ -1,5 +1,6 @@
 docker images -a // show all images
-docker build -t smile/nginx // Собрать все docker image и поставить тег
+docker rmi <name or id> // remove image
+docker build -t smile/nginx // Build docker image and tag it
 docker run -it <name>:<tag> // create container, run it, stdin keep open, allocate a pseudo terminal
 docker run -p 8432:5432 -d official/postgres:9.6 // bridge port from docker 5432 to host 8432 and run it in background. Then u can connect to container from host using: psql -h localhost  -p 8432 -U postgres
 docker run -P -d official/postgres:9.6 // bridge ports from docker to host that are described in Dockerfile with command Expose

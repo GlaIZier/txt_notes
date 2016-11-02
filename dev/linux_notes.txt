@@ -39,7 +39,7 @@ netstat -r // route table
 netstat -latn // listen queue for open sockets
 nmap -p 80 redmine.infoline.ru // show report for redmine.infoline.ru, port 80, open ports
 nmap -A -T4 83.217.194.3  // show open ports report from outside
-lsof -i :25 // list open files by port
+lsof -i :25 // list open files by port 25
 lsof // utilite to show files that processes use
 netstat -nat | grep tcp | awk '{print $(NF)}' | sort | uniq -c // count dif statuses for connections
 ss -i // utilile to show sockets
@@ -56,6 +56,7 @@ grep "cs1 tel" catalina.out.2015-05-14 | awk '{print $49" "$17" "$18" "$7" "$22}
 
 tail -f catalina.out // show in runtime document tail of doc
 tail -1000 catalina.out // show 1000 last lines of the file
+head -1 daily_autocommit_script.sh | od -c // check first line all symbols
 
 la -h show size of a file?
 
@@ -339,6 +340,7 @@ sleep 36000; echo "hello world" | mail -s "a subject" mkhokhlushin@smile-net.ru 
 
 repeatable tasks: cron.d: user, system; at
 crontab -e, crontab -r // add, remove
+/etc/cron.daily, /etc/cron.hourly, /etc/cron.monthly or /etc/cron.weekly // scripts here
 
 date // install date
 ntpdate ntp.server.com // sync with ntp server
