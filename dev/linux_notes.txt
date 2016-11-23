@@ -395,4 +395,4 @@ rsyslog // daemon to control logs. Config in /etc/rsyslog.conf and /etc/rsyslog.
 //logrotate can rotate logs /etc/logrotate.conf, /etc/logrotate.d
 
 
-echo $? // show return code of last command   
+echo $? // show return code of last command
