@@ -10,6 +10,7 @@ grep --color iptv52562 payments*
 grep -E --color "ERROR.+Chronopay.+" payments.log // extended mode to find using regexp
 grep -P --color "ERROR.+Chronopay.+" payments.log // perl mode to find using regexp
 grep -v // invert the sense of matching
+grep -E --color "GlaIZier" /var/log/payments.log*
 
 find / -name 'server.xml'
 find / -iname 'server.xml' // case insensetive
