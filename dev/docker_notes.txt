@@ -12,10 +12,13 @@ docker stop <id> // stop container with this id
 docker stop <name>
 
 
+
+Scripts
 // clean docker
 #!/bin/sh
 docker rm $(docker ps -qa)
 docker rmi $(docker images -a | grep '^<none>' | awk '{print $3}' ) 
 
-
 docker ps -a | grep 'weeks ago' | awk '{print $1}' | xargs --no-run-if-empty docker rm // remove old containers
+
+docker images | awk '{print $3}' | xargs docker rmi -f // remove all images
