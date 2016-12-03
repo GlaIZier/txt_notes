@@ -38,6 +38,7 @@ using
 
 mvn clean tomcat7:redeploy -P dev // deploy to tomcat
 mvn clean tomcat7:redeploy -P prod -Dmaven.skip.test=true -Dtomcat.username=mkhokhlushin -Dtomcat.password=Kbh6VsaA1wPb // deploy to prod skipping tests
+ mvn clean tomcat7:redeploy -P prod -Dmaven.test.skip=true -Dtomcat.username=mkhokhlushin -Dtomcat.password=Kbh5VsaA1wPb // deploy to prod skipping tests
 
 mvn deploy // deploy to the remote repository
 
