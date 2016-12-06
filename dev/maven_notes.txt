@@ -170,3 +170,14 @@ smile.internalProxies = 83\\.217\\.194\\.\\d{1,3}|10\\.0\\.2\\.2|127\\.0\\.0\\.1
 provided // this dependency provided by contrainer or external system
 
 // 
+
+
+mvn -P dev clean package org.codehaus.mojo:wagon-maven-plugin:upload // depoly payments
+Также нужно зайти по ssh на сервер и перезапустить сервис:
+systemctl restart payments
+Посмотреть статус сервера:
+systemctl status payments
+При этом покажется кусочек лога.
+Аналог tail -f logs/catalina.out:
+journalctl -xf
+Все остальные логи хранятся в /opt/payments/logs.
