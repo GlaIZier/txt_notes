@@ -33,6 +33,7 @@ locate nginx.conf // find file using index. May be slow and may be fast because 
 
 netstat // network statistics, sockets
 netstat -ltpn  //watch open ports
+netstat -lepunt // watch full info about services
 netstat -t // only tcp
 netstat -na // show opened connections
 netstat -i //interfaces list
