@@ -17,3 +17,6 @@ git commit --amend
 git push -f origin master
 
 git rebase -i HEAD~2
+
+// Problem please make sure you have the correct access rights and the repository exists.
+// check that ur user group does not override rights
