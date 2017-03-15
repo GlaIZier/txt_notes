@@ -1,3 +1,3 @@
-#Deprecated. Use notes repo insted
+# Deprecated. Use notes repo insted
 # txt_notes
 Usefull notes
